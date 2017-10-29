@@ -39,7 +39,9 @@ function checkimg($string, $type=0){
       $exitflag++;
     }
   }
-  if($exitflag) saveimg($string2, $type);
+  $sa=0;
+  if($exitflag) $sa=saveimg($string2, $type);
+  if($sa<$exitflag) return checkimg($string, $type);
   return $string;
 }
 function saveimg($url, $type=0) {
