@@ -82,7 +82,7 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <td class="span7">标题</td>
+            <td class="span7">主题</td>
             <td class="span2">作者</td>
             <td class="span1">回复</td>
             <td class="span2"><a href="<?php if($_REQUEST['order']==0){echo '?order=2';}else{echo '?order=0';} ?>" >活动<?php if($_REQUEST['order']==2) echo'▲'; if($_REQUEST['order']==0) echo'▼'; ?></a></td>

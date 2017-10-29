@@ -89,7 +89,7 @@
     
       <div class="row">
         <div class="span12">
-          <legend><?php echo base64_decode($topic['title']).' <a href="'; if($_REQUEST['order']==0){echo '?order=1&id='.$id;}else{echo '?order=0&id='.$id;} ?>" ><?php if($_REQUEST['order']==1) echo'▼'; if($_REQUEST['order']==0) echo'▲'; ?></a></legend>
+          <legend><?php echo base64_decode($topic['title']).' <a href="'; if($_REQUEST['order']==0){echo '?order=1&id='.$id;}else{echo '?order=0&id='.$id;} ?>" ><?php if($_REQUEST['order']==1) echo'▼'; if($_REQUEST['order']==0) echo'▲'; ?></a><a href="<?php echo '?id='.$id.'&page='.$page_count; ?>">►</a></legend>
           <label></label>
         </div>
       </div>

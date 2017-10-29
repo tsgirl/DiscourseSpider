@@ -83,7 +83,7 @@ function saveimg($url, $type=0) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url[1][$x]);
     curl_setopt($ch, CURLOPT_HEADER, false);
-    curl_setopt($ch, CURLOPT_COOKIE, $cookie);
+    //curl_setopt($ch, CURLOPT_COOKIE, $cookie);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
     curl_setopt($ch, CURLOPT_USERAGENT, $sysconfig['ua']);
