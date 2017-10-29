@@ -189,7 +189,7 @@ function getstream($id, $session=''){
   $re = getjson('/t/'.$id.'.json?_='.time().rand(001,999), $session);
   $gd = json_decode($re['content'], true);
   if(!$gd) return Array('content'=>null, 'session'=>$re['session'], '_t'=>$re['_t']);
-  return Array('content'=>$gd['post_stream']['stream'], 'session'=>$re['session'], '_t'=>$re['_t']);
+  return Array('original'=>$gd, 'content'=>$gd['post_stream']['stream'], 'session'=>$re['session'], '_t'=>$re['_t']);
 }
 
 
