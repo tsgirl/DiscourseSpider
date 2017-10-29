@@ -132,15 +132,15 @@
 <?php
   echo '<div class="span2"><a class="btn';
   if($page==1) echo ' disabled';
-  echo '" href="?page='.($page-1).'&id='.$id;
-  echo '">Prev</a></div>';
+  echo '" href="?page='.($page-1).'&id='.$id.'&order='.$_REQUEST['order'];
+  echo '">上一页</a></div>';
   echo '<div class="span2 offset6"><form method="get" class="form-inline" action=""><div class="input-append"><input class="input span1" id="appendedInputButton" name="page" type="text" placeholder="[1,';
   echo $page_count;
-  echo ']" required><input type="hidden" name="id" value="'.$id.'"><input type="hidden" name="order" value="'.$_REQUEST['order'].'"><button class="btn" type="submit">toPage</button></div></form></div>';
+  echo ']" required><input type="hidden" name="id" value="'.$id.'"><input type="hidden" name="order" value="'.$_REQUEST['order'].'"><button class="btn" type="submit">跳页</button></div></form></div>';
   echo '<div class="span2"><a class="btn';
   if($page==$page_count) echo ' disabled';
-  echo '" href="?page='.($page+1).'&id='.$id;
-  echo '">Next</a></div>';
+  echo '" href="?page='.($page+1).'&id='.$id.'&order='.$_REQUEST['order'];
+  echo '">下一页</a></div>';
 
 ?>
       </div>

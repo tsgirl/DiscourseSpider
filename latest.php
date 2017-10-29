@@ -82,10 +82,10 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <td class="span7">Topic</td>
-            <td class="span2">Author</td>
-            <td class="span1">Replies</td>
-            <td class="span2"><a href="<?php if($_REQUEST['order']==0){echo '?order=2';}else{echo '?order=0';} ?>" >Activity<?php if($_REQUEST['order']==2) echo'▲'; if($_REQUEST['order']==0) echo'▼'; ?></a></td>
+            <td class="span7">标题</td>
+            <td class="span2">作者</td>
+            <td class="span1">回复</td>
+            <td class="span2"><a href="<?php if($_REQUEST['order']==0){echo '?order=2';}else{echo '?order=0';} ?>" >活动<?php if($_REQUEST['order']==2) echo'▲'; if($_REQUEST['order']==0) echo'▼'; ?></a></td>
           </tr>
         </thead>
         <tbody>
@@ -110,14 +110,14 @@
   echo '<div class="span2"><a class="btn';
   if($page==1) echo ' disabled';
   echo '" href="?page='.($page-1);
-  echo '">Prev</a></div>';
+  echo '">上一页</a></div>';
   echo '<div class="span2 offset6"><form method="get" class="form-inline" action=""><div class="input-append"><input class="input span1" id="appendedInputButton" name="page" type="text" placeholder="[1,';
   echo $page_count;
-  echo ']" required><input type="hidden" name="order" value="'.$_REQUEST['order'].'"><button class="btn" type="submit">toPage</button></div></form></div>';
+  echo ']" required><input type="hidden" name="order" value="'.$_REQUEST['order'].'"><button class="btn" type="submit">跳页</button></div></form></div>';
   echo '<div class="span2"><a class="btn';
   if($page==$page_count) echo ' disabled';
   echo '" href="?page='.($page+1);
-  echo '">Next</a></div>';
+  echo '">下一页</a></div>';
 
 ?>
       </div>
