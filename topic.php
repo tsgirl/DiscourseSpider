@@ -121,7 +121,7 @@
         echo '<p>userid='.$post['userid'].'</p>';
       }
     }
-    echo base64_decode($post['content']);
+    echo checkimg(base64_decode($post['content']));
     echo '</td><td>'.date("Y-m-d H:i", $post['creatime']).'</td></tr>';
   }
 ?>

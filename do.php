@@ -87,6 +87,7 @@
         echo '<br />........Post: '.$status['post']['offset'].' ('.$session['content']['post_stream']['posts'][$xx]['id'].')';
         $creatime=strtotime($session['content']['post_stream']['posts'][$xx]['created_at']);
         $updatime=strtotime($session['content']['post_stream']['posts'][$xx]['updated_at']); 
+        saveimg($session['content']['post_stream']['posts'][$xx]['cooked']);
         $session['content']['post_stream']['posts'][$xx]['cooked']=base64_encode($session['content']['post_stream']['posts'][$xx]['cooked']);
         if(isset($session['content']['post_stream']['posts'][$xx]['reply_to_user'])){
           $session['content']['post_stream']['posts'][$xx]['reply_to_user']['username']=base64_encode($session['content']['post_stream']['posts'][$xx]['reply_to_user']['username']);
