@@ -32,9 +32,9 @@ function checkimg($string, $type=0){
   for($x=0;$x<sizeof($url[1]);$x++){
     $fname=strrev(stristr(strrev($url[1][$x]), '/', true));
     if(stristr($fname, '?')) $fname=stristr($fname, '?', true);
-    if(!is_dir($sdir.substr($fname, 0, 4))) mkdir($sdir.substr($fname,0,4));
-    if(is_file($sdir.substr($fname, 0, 4).'/'.$fname)){
-      $string=str_ireplace($url[1][$x], $sdir.substr($fname, 0, 4).'/'.$fname, $string);
+    if(!is_dir($sdir.str_ireplace('.', '0', substr($fname,0,4)))) mkdir($sdir.str_ireplace('.', '0', substr($fname,0,4)));
+    if(is_file($sdir.str_ireplace('.', '0', substr($fname,0,4)).'/'.$fname)){
+      $string=str_ireplace($url[1][$x], $sdir.str_ireplace('.', '0', substr($fname,0,4)).'/'.$fname, $string);
     }else{
       $exitflag++;
     }
@@ -64,8 +64,8 @@ function saveimg($url, $type=0) {
   for($x=0;$x<sizeof($url[1]);$x++){
     $fname=strrev(stristr(strrev($url[1][$x]), '/', true));
     if(stristr($fname, '?')) $fname=stristr($fname, '?', true);
-    if(!is_dir($sdir.substr($fname, 0, 4))) mkdir($sdir.substr($fname,0,4));
-    if(is_file($sdir.substr($fname, 0, 4).'/'.$fname)) continue;
+    if(!is_dir($sdir.str_ireplace('.', '0', substr($fname,0,4)))) mkdir($sdir.str_ireplace('.', '0', substr($fname,0,4)));
+    if(is_file($sdir.str_ireplace('.', '0', substr($fname,0,4)).'/'.$fname)) continue;
     if(substr($url[1][$x], 0, 2)=='//'){
       if(substr($sysconfig['site'], 0, 5)=='https'){
         $url[1][$x]='https:'.$url[1][$x];
@@ -98,7 +98,7 @@ function saveimg($url, $type=0) {
       $exitflag++;
       continue;
     }
-    if ($fp=@fopen($sdir.substr($fname,0,4).'/'.$fname, "wb")){
+    if ($fp=@fopen($sdir.str_ireplace('.', '0', substr($fname,0,4)).'/'.$fname, "wb")){
       if(@fwrite($fp, $re)){
         fclose($fp);
       }else{
