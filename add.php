@@ -30,7 +30,7 @@
   if($status['post']){
     if($status['post']['offset']==$session['original']['posts_count']) exit(' ['.$status['post']['offset'].'] post count unchanged, skipping...');
   }else{
-    $username=$session['original']['details']['created_by']['username'];
+    $username=base64_encode($session['original']['details']['created_by']['username']);
     dbquery("INSERT INTO `topics` VALUES ('{$session['original']['id']}', '', 0, '{$session['original']['title']}', '{$creatime}', '{$updatime}', 0, '{$username}')");
   }
   $status['post']['count']=sizeof($session['content']);
