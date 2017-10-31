@@ -21,7 +21,7 @@
 *      ┗┻┛ ┗┻┛ 
 * ━━━━━━神兽出没━━━━━━by:coder-pig 
 */  
-function checkimg($string, $type=0){
+function checkimg($string, $type=0, $noretry=0){
   global $sysconfig;
   if(!$sysconfig['saveimg']) return $string;
   if(!stristr($string,'<img')) return $string;
@@ -41,7 +41,7 @@ function checkimg($string, $type=0){
   }
   $sa=0;
   if($exitflag) $sa=saveimg($string2, $type);
-  if($sa<$exitflag) return checkimg($string, $type);
+  if(!$noretry&&$sa<$exitflag) return checkimg($string, $type, 1);
   return $string;
 }
 function saveimg($url, $type=0) {
