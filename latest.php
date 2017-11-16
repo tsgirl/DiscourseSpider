@@ -1,9 +1,6 @@
 <?php
   require_once('config.php');
   require_once('include.php');
-  $con = mysql_connect($dbconfig['server'],$dbconfig['user'],$dbconfig['pass']);
-  if(!$con) exit(mysql_error());
-  mysql_select_db($dbconfig['name'], $con);
   preg_match('/^http:\/\/|https:\/\/?(.+)/',$sysconfig['site'],$siteurl);
   if(isset($_REQUEST['pagesize'])&&is_numeric($_REQUEST['pagesize'])){
     $topics_per_page=$_REQUEST['pagesize'];
@@ -28,7 +25,7 @@
     $_REQUEST['order']=0;
   }
   $start=($page-1)*$topics_per_page;
-  $dbs=mysql_fetch_array(dbquery('SELECT COUNT(*) FROM `topics`'));
+  $dbs=fetcharray(dbquery('SELECT COUNT(*) FROM `topics`'));
   $page_count=ceil($dbs[0]/$topics_per_page);
   if($page>$page_count) $start=0;
   $dbs=dbquery("SELECT * FROM `topics` ORDER BY {$order} LIMIT {$start}, {$topics_per_page}");
@@ -91,7 +88,7 @@
         <tbody>
           
 <?php
-  while($topic=mysql_fetch_array($dbs)){
+  while($topic=fetcharray($dbs)){
     if(!$topic['count']){
       $topic['count']=sizeof(json_decode($topic['stream'],true));
       dbquery("UPDATE `topics` SET count='{$topic['count']}', stream='' WHERE id={$topic['id']}");

@@ -7,10 +7,7 @@
   $topic_finish=0;
   $topic_part_finish=0;
   $page_break=0;
-  $con = mysql_connect($dbconfig['server'],$dbconfig['user'],$dbconfig['pass']);
-  if(!$con) exit(mysql_error());
-  mysql_select_db($dbconfig['name'], $con);
-  $dbs=mysql_fetch_array(dbquery('SELECT * FROM `config` WHERE `id`=1'));
+  $dbs=fetcharray(dbquery('SELECT * FROM `config` WHERE `id`=1'));
   if(!$dbs||!$dbs['value']||!$session=json_decode(base64_decode($dbs['value']), true)){
     if(!$dbs) dbquery('INSERT INTO `config` (id, name) VALUES (1, \'userinfo\')');
     $session=getsession();
@@ -20,9 +17,9 @@
     $session=getsession();
   }
   if(!$session['user']) echo '<br />WARNING: username not found in response (_t is invaild?)';
-  $status['page']=mysql_fetch_array(dbquery('SELECT * FROM `status` WHERE `id`=1'));
-  $status['topic']=mysql_fetch_array(dbquery('SELECT * FROM `status` WHERE `id`=2'));
-  $status['finish']=mysql_fetch_array(dbquery('SELECT * FROM `status` WHERE `id`=3'));
+  $status['page']=fetcharray(dbquery('SELECT * FROM `status` WHERE `id`=1'));
+  $status['topic']=fetcharray(dbquery('SELECT * FROM `status` WHERE `id`=2'));
+  $status['finish']=fetcharray(dbquery('SELECT * FROM `status` WHERE `id`=3'));
   echo '<br />Page: '.$status['page']['value'];
   $re=getlatest($status['page']['value'], $session['session'], $status['finish']['value']);
   $session['session']=$re['session'];
@@ -34,7 +31,7 @@
     $creatime=strtotime($re['content']['topic_list']['topics'][$x]['created_at']);
     $updatime=strtotime($re['content']['topic_list']['topics'][$x]['last_posted_at']);
     $re['content']['topic_list']['topics'][$x]['title']=base64_encode($re['content']['topic_list']['topics'][$x]['title']);
-    $status['post']=mysql_fetch_array(dbquery('SELECT * FROM `topics` WHERE `id`='.$re['content']['topic_list']['topics'][$x]['id']));
+    $status['post']=fetcharray(dbquery("SELECT * FROM `topics` WHERE `id`={$re['content']['topic_list']['topics'][$x]['id']} LIMIT 1"));
     if($status['post']){
       if($status['post']['offset']==$re['content']['topic_list']['topics'][$x]['posts_count']){
         echo ' ['.$status['post']['offset'].'] post count unchanged, skipping...';
@@ -66,7 +63,7 @@
     if(!$session['content']) exit('<br />ERROR: can\'t decode return data ('.$re['content']['topic_list']['topics'][$x]['id'].'.json)');
     $status['post']['count']=sizeof($session['content']);
     dbquery("UPDATE `topics` SET count='{$status['post']['count']}', updatime='{$updatime}' WHERE `id`='{$re['content']['topic_list']['topics'][$x]['id']}'");
-    $status['post']=mysql_fetch_array(dbquery('SELECT * FROM `topics` WHERE `id`='.$re['content']['topic_list']['topics'][$x]['id']));
+    $status['post']=fetcharray(dbquery("SELECT * FROM `topics` WHERE `id`={$re['content']['topic_list']['topics'][$x]['id']} LIMIT 1"));
     $status['post']['stream']=$session['content'];
     echo ' ['.sizeof($session['content']).']';
     if($status['post']['offset']>=sizeof($status['post']['stream'])){

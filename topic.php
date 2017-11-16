@@ -1,9 +1,6 @@
 <?php
   require_once('config.php');
   require_once('include.php');
-  $con = mysql_connect($dbconfig['server'],$dbconfig['user'],$dbconfig['pass']);
-  if(!$con) exit(mysql_error());
-  mysql_select_db($dbconfig['name'], $con);
   preg_match('/^http:\/\/|https:\/\/?(.+)/',$sysconfig['site'],$siteurl);
   if(isset($_REQUEST['pagesize'])&&is_numeric($_REQUEST['pagesize'])){
     $posts_per_page=$_REQUEST['pagesize'];
@@ -32,10 +29,10 @@
     $order='creatime';
     $_REQUEST['order']=0;
   }
-  $topic=mysql_fetch_array(dbquery("SELECT * FROM `topics` WHERE id={$id} LIMIT 1"));
+  $topic=fetcharray(dbquery("SELECT * FROM `topics` WHERE id={$id} LIMIT 1"));
   if(!$topic) exit('服务不可用。');
   $start=($page-1)*$posts_per_page;
-  $dbs=mysql_fetch_array(dbquery('SELECT COUNT(*) FROM `posts` WHERE fr='.$id));
+  $dbs=fetcharray(dbquery('SELECT COUNT(*) FROM `posts` WHERE fr='.$id));
   $page_count=ceil($dbs[0]/$posts_per_page);
   if($page>$page_count) $start=0;
   $dbs=dbquery("SELECT * FROM `posts` WHERE fr={$id} ORDER BY {$order} LIMIT {$start}, {$posts_per_page}");
@@ -104,7 +101,7 @@
           
 <?php
   $userlist=array();
-  while($post=mysql_fetch_array($dbs)){
+  while($post=fetcharray($dbs)){
     $user=array();
     echo '<tr><td>';
     for($x=0;$x<sizeof($userlist);$x++){
@@ -113,7 +110,7 @@
     if($user){
       echo '<p><b>'.base64_decode($user['username']).'</b> '.base64_decode($user['name']).'</p>';
     }else{
-      $user=mysql_fetch_array(dbquery("SELECT * FROM `users` WHERE id={$post['userid']} LIMIT 1"));
+      $user=fetcharray(dbquery("SELECT * FROM `users` WHERE id={$post['userid']} LIMIT 1"));
       if($user){
         array_push($userlist, $user);
         echo '<p><b>'.base64_decode($user['username']).'</b> '.base64_decode($user['name']).'</p>';      

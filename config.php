@@ -63,4 +63,5 @@ $sysconfig=Array(
 //save pictures.
 //////////////////////////////////////
 );
+require_once('init.php');
 ?>

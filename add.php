@@ -6,10 +6,7 @@
   if(!isset($_REQUEST['id'])||!is_numeric($_REQUEST['id'])) exit('服务不可用。');
   $topic_finish=0;
   $topic_part_finish=0;
-  $con = mysql_connect($dbconfig['server'],$dbconfig['user'],$dbconfig['pass']);
-  if(!$con) exit(mysql_error());
-  mysql_select_db($dbconfig['name'], $con);
-  $dbs=mysql_fetch_array(dbquery('SELECT * FROM `config` WHERE `id`=1'));
+  $dbs=fetcharray(dbquery('SELECT * FROM `config` WHERE `id`=1'));
   if(!$dbs||!$dbs['value']||!$session=json_decode(base64_decode($dbs['value']), true)){
     if(!$dbs) dbquery('INSERT INTO `config` (id, name) VALUES (1, \'userinfo\')');
     $session=getsession();
@@ -26,7 +23,7 @@
   $creatime=strtotime($session['original']['created_at']);
   $updatime=strtotime($session['original']['last_posted_at']);
   $session['original']['title']=base64_encode($session['original']['title']);
-  $status['post']=mysql_fetch_array(dbquery('SELECT * FROM `topics` WHERE `id`='.$session['original']['id']));
+  $status['post']=fetcharray(dbquery("SELECT * FROM `topics` WHERE `id`={$session['original']['id']} LIMIT 1"));
   if($status['post']){
     if($status['post']['offset']==$session['original']['posts_count']) exit(' ['.$status['post']['offset'].'] post count unchanged, skipping...');
   }else{
@@ -35,8 +32,7 @@
   }
   $status['post']['count']=sizeof($session['content']);
   dbquery("UPDATE `topics` SET count='{$status['post']['count']}', updatime='{$updatime}' WHERE `id`='{$session['original']['id']}'");
-  $status['post']=mysql_fetch_array(dbquery('SELECT * FROM `topics` WHERE `id`='.$session['original']['id']));
-  $status['post']['stream']=$session['content'];
+  $status['post']=fetcharray(dbquery("SELECT * FROM `topics` WHERE `id`={$session['original']['id']} LIMIT 1"));  $status['post']['stream']=$session['content'];
   echo ' ['.sizeof($session['content']).']';
   if($status['post']['offset']>=sizeof($status['post']['stream'])) exit(' ['.$status['post']['offset'].'] post count unchanged, skipping...');
   $page_finish=0;

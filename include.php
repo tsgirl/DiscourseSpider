@@ -44,6 +44,8 @@ function checkimg($string, $type=0, $noretry=0){
   if(!$noretry&&$sa<$exitflag) return checkimg($string, $type, 1);
   return $string;
 }
+
+
 function saveimg($url, $type=0) {
   if(!$url) return 0;
   global $sysconfig;
@@ -60,9 +62,10 @@ function saveimg($url, $type=0) {
     'x-csrf-token'=>'undefined',
     'x-requested-with'=>'XMLHttpRequest');
   $exitflag=0;
-  $sdir=$type?'res/portrait/':'res/img/';
+  $sdir=dirname(__FILE__).( $type ? '/res/portrait/' : '/res/img/');
   for($x=0;$x<sizeof($url[1]);$x++){
     $fname=strrev(stristr(strrev($url[1][$x]), '/', true));
+    if(!$fname) continue;
     if(stristr($fname, '?')) $fname=stristr($fname, '?', true);
     if(!is_dir($sdir.str_ireplace('.', '0', substr($fname,0,4)))) mkdir($sdir.str_ireplace('.', '0', substr($fname,0,4)));
     if(is_file($sdir.str_ireplace('.', '0', substr($fname,0,4)).'/'.$fname)) continue;
@@ -98,8 +101,8 @@ function saveimg($url, $type=0) {
       $exitflag++;
       continue;
     }
-    if ($fp=@fopen($sdir.str_ireplace('.', '0', substr($fname,0,4)).'/'.$fname, "wb")){
-      if(@fwrite($fp, $re)){
+    if ($fp=fopen($sdir.str_ireplace('.', '0', substr($fname,0,4)).'/'.$fname, "wb")){
+      if(fwrite($fp, $re)){
         fclose($fp);
       }else{
         fclose($fp);
@@ -161,17 +164,22 @@ function getsession($session=''){
 
 
 function dbquery($sql){
-  $dbq=mysql_query($sql);
-  if(!$dbq){
-    $dberr=mysql_error();
+  global $con;
+  $dbq=$con->query($sql);
+  if($dbq=$con->query($sql)){
+    return $dbq;
+  }else{
+    $dberr=$con->error;
     if(substr($dberr,0,9)!='Duplicate'){
       exit('MySQL ERROR:'.$dberr.'<br />'.$sql);
     }else{
       return null;
     }
-  }else{
-    return $dbq;
   }
+}
+
+function fetcharray($result){
+  return $result->fetch_array(MYSQLI_BOTH);
 }
 
 
